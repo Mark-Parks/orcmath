@@ -119,7 +119,7 @@ public class Sampler extends GUIApplication {
 				}
 			}); 
 			viewObjects.add(cb);
-			viewObjects.add(new anythingYouWant());
+			viewObjects.add(new VideoGame("portal","valve","2012"));
 			
 		}
 		
