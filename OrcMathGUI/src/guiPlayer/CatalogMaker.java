@@ -6,145 +6,83 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CatalogMaker {
 
-	public static Scanner in;
-
-	private ArrayList<Book> catalog;
+	private ArrayList<VideoGame> Catalog;
 
 	public CatalogMaker() {
-		//instantiate the catalog
-		catalog = new ArrayList<Book>();
+		Catalog = new ArrayList<VideoGame>();
+		Catalog.add(new VideoGame("Portal 2","Valve","2012"));
+		Catalog.add(new VideoGame("CS:GO","Valve","2011"));
+		Catalog.add(new VideoGame("Overwatch","Blizzard","2015"));
+		Catalog.add(new VideoGame("Left 4 Dead 2","Valve","2013"));
+		Catalog.add(new VideoGame("Team Fortress 2","Valve","2007"));
+		Catalog.add(new VideoGame("HearthStone","Blizzard","2014"));
 	}
 
-	public static void main(String[] args){
-		CatalogMaker maker = new CatalogMaker();
-		in = new Scanner(System.in);
-		maker.menu();
-	}
+	public static void main(String[] args) {
 
-	private static void displayMessage(String message){
-		System.out.println(message);
-	}
-
-	private void menu() {
-		displayMessage("Would you like to \"load\" a save file or \"create\" a new list? ");
-		String[] allowedEntry = {"load","create"};
-		String input = getEntry(allowedEntry);
-		if(input.equals("load")){
-			load();
-		}else{
-			create();
+		CatalogMaker test = new CatalogMaker();
+		System.out.println(test.getCSVContent());
+		System.out.println("Type what you would like to add to the Video Game List");
+		Scanner in = new Scanner(System.in);
+		String a = in.nextLine();
+		System.out.println("Type who made it!");
+		while(!a.equals("done")) {
+			String b = in.nextLine();
+			System.out.println("Type when it was released!");
+			String c = in.nextLine();
+			test.addNewGame(new VideoGame(a,b,c));
+			System.out.println("Type who made it or type 'done' to stop.");
+			a = in.nextLine();
+		}
+		System.out.println("Type what you would like the file to be saved as.");
+		String fileName = in.nextLine();
+		test.testSaveContent(fileName);
+		System.out.println("Here is the new CSV file.");
+		System.out.println(test.getCSVContent());
+		System.out.println("Would you like to load a file? \n");
+		a = in.nextLine();
+		if(a.equals("yes")) {
+			test.testFileLoading();
+		}else {
+			in.close();
+			System.out.println("Okay, Thank you, Goodbye!");
 		}
 	}
 
-	private void create() {
-		
-		boolean running = true;
-		while(running){
-			showCatalog();
-			displayMessage("Would you like to \"add\", \"save\", or \"quit\"?");
-			String[] allowedEntry = {"add","save","quit"};
-			String selection = getEntry(allowedEntry);
-			if(selection.equals("add")){
-				add();
-			}else if(selection.equals("save")){
-				save();
-			}else{
-				running = false;
-			}
+	public String getCSVContent() {
+		String data = "Title,Company,Year\n";
+		for(VideoGame vg: Catalog) {
+			data += vg+"\n";
 		}
+		return data;
 	}
 
-	private void add() {
-		String title = null;
-		String author = null;
-		int pages = 0;
-		displayMessage("Please enter a title");
-		title = getStringInput();
-		displayMessage("Please enter an author");
-		author = getStringInput();
-		displayMessage("Please enter the number of pages.");
-		pages = getIntegerInput();
-		addBook(new Book(title, author, pages));
+	public void addNewGame(VideoGame vg) {
+		Catalog.add(vg);
+		System.out.println("Item added!");
 	}
 
-	private int getIntegerInput() {
-		String text = in.nextLine();
-		int value = 0;
-		boolean valid = false;
-		while(!valid){
-			try{
-				value = Integer.parseInt(text);
-				valid = true;
-			}catch(NumberFormatException nfe){
-				displayMessage("You must enter an integer.");
-			}
-		}
-		return value;
-	}
-
-	private static String getStringInput(){
-		String text = in.nextLine();
-		while(text.isEmpty()){
-			displayMessage("You must enter a non-empty String.");
-			text = in.nextLine();
-		}
-		return text;
-	}
-
-
-	private void addBook(Book b){
-		catalog.add(b);
-	}
-
-	private void save() {
+	public void testSaveContent(String fileName) {
 		try{    
-			FileWriter fw=new FileWriter("BookCatalog.csv");
-			for(Book b: catalog){
-				fw.write(b+"\n");    	
-			}
-
-			fw.close();    
-			System.out.println("Success! File \"BookCatalog.csv\" saved!");
+			FileWriter fw = new FileWriter(fileName+".csv");    
+			for(VideoGame vg: Catalog)
+				fw.write(vg+"\n");
+			System.out.println("Success! File \""+fileName+"\" saved!");
+			fw.close();
 		}catch(IOException e){
 			System.out.println("An IOException was thrown. \nCheck to see that the directory where you tried to save the file actually exists.");
 		}
 	}
 
-	private static String getEntry(String[] allowedEntry) {
-		String input = in.nextLine();
-		while(!matchesEntry(input, allowedEntry)){
-			displayMessage("You must enter one of these words: ");
-			for(String s: allowedEntry){
-				System.out.print(s+" ");
-			}
-			displayMessage("\n");
-			input = in.nextLine();
-		}
-		return input;
-	}
-
-	private static boolean matchesEntry(String text, String[] list){
-		for(String l: list){
-			if(l.equals(text))return true;
-		}
-		return false;
-	}
-
-	private  void showCatalog() {
-		displayMessage("The catalog contains these Books:\n");
-		for(Book b: catalog){
-			displayMessage("   "+b.toString()+"\n");
-		}
-	}
-
-	private void load() {
+	public List<String> testFileLoading() {
+		Scanner in = new Scanner(System.in);
 		String fileName = "";
-		//empty the catalog to prepare for a new load
-		catalog = new ArrayList<Book>();
+		List<String> content = new ArrayList<String>();
 		//use this boolean to control the while loop. The user should have multiple chances to enter a correct filename
 		boolean opened = false;
 		while(!opened){
@@ -153,16 +91,11 @@ public class CatalogMaker {
 				fileName = in.nextLine();
 				FileReader fileReader = new FileReader(new File(fileName));
 				String line = "";
-				//a BufferedReader enables us to read teh file one line at a time
+				//a BufferedReader enables us to read the file one line at a time
 				BufferedReader br = new BufferedReader(fileReader);
 				while ((line = br.readLine()) != null) {
-
-					String[] param = line.split(",");
-					//add a new Book for each line in the save file
-					catalog.add(new Book(param[0],param[1],Integer.parseInt(param[2])));
-
-
-
+					String[] parem = line.split(",");
+					Catalog.add(new VideoGame(parem[0],parem[1],parem[2]));
 				}
 				br.close();
 				opened = true;
@@ -170,7 +103,12 @@ public class CatalogMaker {
 				System.out.println("The file name you specified does not exist.");
 			}
 		}
-		create();
-
+		//close the Scanner
+		in.close();
+		return content;
 	}
-}
+	
+	public ArrayList<VideoGame> getCatalog() {
+		return Catalog;
+	}
+} 
