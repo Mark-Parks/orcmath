@@ -27,7 +27,7 @@ public class CatalogScreen extends FullFunctionScreen {
 	public void initAllObjects(List<Visible> viewObjects) {
 		Catalog = new CatalogMaker();
 		StyledComponent.setTextColor(Color.BLUE);
-		textarea = new TextArea(310,300,200,30,"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		textarea = new TextArea(310,300,200,30,"");
 		titleField = new TextField(40,40,200,30,"Title goes here , ","Title of Game");
 		compField = new TextField(260,40,200,30,"Company Name goes here , ","Company who made Game");
 		yearField = new TextField(480,40,200,30,"Year goes here , ","Year it was made");
@@ -40,6 +40,13 @@ public class CatalogScreen extends FullFunctionScreen {
 				addButtonClicked();
 			}
 		});
+		Button open = new Button((getWidth()-100)/2,getHeight()-40,100,30,"Switch",new Action() {
+			 @Override
+		 	public void act() {
+				 CatalogMakerGUI.catalog.setScreen(CatalogMakerGUI.s2);
+		 	}
+		});
+		viewObjects.add(open);
 		viewObjects.add(titleField);
 		viewObjects.add(compField);
 		viewObjects.add(yearField);

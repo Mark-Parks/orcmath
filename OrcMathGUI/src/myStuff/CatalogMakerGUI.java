@@ -3,6 +3,10 @@ package myStuff;
 import guiTeacher.GUIApplication;
 
 public class CatalogMakerGUI extends GUIApplication {
+	
+	public static CatalogMakerGUI catalog;
+	public static CatalogScreen s1;
+	public static HappyHolidays s2;	
 
 	public CatalogMakerGUI(int width, int height) {
 		super(width, height);
@@ -11,15 +15,16 @@ public class CatalogMakerGUI extends GUIApplication {
 	}
 	
 	public static void main(String[] args) {
-		CatalogMakerGUI sample = new  CatalogMakerGUI(800, 550);
-		Thread go = new Thread(sample);
+		catalog = new  CatalogMakerGUI(800, 550);
+		Thread go = new Thread(catalog);
 		go.start();
 	}
 	
 	@Override
 	public void initScreen() {
-		CatalogScreen s = new CatalogScreen(getWidth(),getHeight());
-		setScreen(s);
+		s1 = new CatalogScreen(getWidth(),getHeight());
+		s2 = new HappyHolidays(getWidth(),getHeight());
+		setScreen(s1);
 	}
 
 }
