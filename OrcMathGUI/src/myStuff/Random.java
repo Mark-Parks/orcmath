@@ -1,5 +1,5 @@
 package myStuff;
 
-public class random {
+public class Random {
 
 }
