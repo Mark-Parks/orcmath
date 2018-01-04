@@ -20,6 +20,7 @@ public class SimonGame extends FullFunctionScreen{
 	private Button red;
 	private Button yellow;
 	private Button green;
+	private Button start;
 	private TextArea scoreBoard; 
 	private int round;
 	
@@ -31,24 +32,27 @@ public class SimonGame extends FullFunctionScreen{
 	@Override
 	public void initAllObjects(List<Visible> viewObjects) {
 		StyledComponent.setButtonOutline(true);
+		moves = new ArrayList<Integer>();
+		playerMoves = new ArrayList<Integer>();
 		blue = new Button(150,250,200,200,"",Color.BLUE,new Action() {
 			
 			@Override
 			public void act() {
 				playerMoves.add(0);
-				buttonBlink(1000-(round*50));
-				checkGame();
+				buttonBlink(0,100);
+				checkMoves();
 			}
 
 		});
 		viewObjects.add(blue);
 		
-		red = new Button(350,250,200,200,"",Color.red,new Action() {
+		red = new Button(350,250,200,200,"",Color.RED,new Action() {
 			
 			@Override
 			public void act() {
 				playerMoves.add(1);
-				checkGame();
+				buttonBlink(1,100);
+				checkMoves();
 			}
 
 		});
@@ -59,7 +63,8 @@ public class SimonGame extends FullFunctionScreen{
 			@Override
 			public void act() {
 				playerMoves.add(2);
-				checkGame();
+				buttonBlink(2,100);
+				checkMoves();
 			}
 
 		});
@@ -70,34 +75,142 @@ public class SimonGame extends FullFunctionScreen{
 			@Override
 			public void act() {
 				playerMoves.add(3);
-				checkGame();
+				buttonBlink(3,100);
+				checkMoves();
 			}
 
 		});
 		viewObjects.add(green);
 		
-		scoreBoard = new TextArea(150,100,400,100,"ROUND : "+round+"\nSEQUENCE LENGTH : "+(round+3));
+		start = new Button(150,175,100,50,"Start Game",new Action() {
+			
+			@Override
+			public void act() {
+				round = 0;
+				viewObjects.remove(start);
+				SimonTurn();
+			}
+		});
+		viewObjects.add(start);
+		
+		scoreBoard = new TextArea(150,75,400,150,"ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 		viewObjects.add(scoreBoard);
+		
+		blue.setEnabled(false);
+		red.setEnabled(false);
+		yellow.setEnabled(false);
+		green.setEnabled(false);
 	}
 
-	protected void checkGame() {
-		for(int i = 0; i < moves.size(); i++) {
+	public void checkMoves() {
+		for(int i = 0; i < playerMoves.size(); i++) {
 			if(moves.get(i) != playerMoves.get(i)) {
-				//Buttons not visable TextFeild says game over
+				scoreBoard.clear();
+				blue.setVisible(false);
+				red.setVisible(false);
+				yellow.setVisible(false);
+				green.setVisible(false);
+				scoreBoard.setText("GAME OVER \nROUND : "+round+"\nSEQUENCE LENGTH: "+(round+2));
+				return;
 			}
+		}
+		if(playerMoves.size() == moves.size()) {
+			SimonTurn();
 		}
 	}
 
 	public void generateMove(int round) {
-		moves.add((int)(Math.random()*4));
-		while(moves.get(round-2) == moves.get(round-1)){
-			moves.remove(round-1);
+		if(round == 0) {
 			moves.add((int)(Math.random()*4));
+			generateMove(1);
+			generateMove(2);
+		}else {
+			moves.add((int)(Math.random()*4));
+			while(moves.get(round-1) == moves.get(round)){
+				moves.remove(round);
+				moves.add((int)(Math.random()*4));
+			}
 		}
 	}
 	
-
-	private void buttonBlink(int i) {
-		;
+	protected void SimonTurn() {
+		scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nSIMON'S TURN");
+		playerMoves.clear();
+		blue.setEnabled(false);
+		red.setEnabled(false);
+		yellow.setEnabled(false);
+		green.setEnabled(false);
+		generateMove(round);
+		SimonBlinks(moves);
+		round++;	
+		scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
+		for(int i = 0; i < moves.size(); i++) {
+			System.out.println(moves.get(i));
+		}
+		System.out.println("---");
+		blue.setEnabled(true);
+		red.setEnabled(true);
+		yellow.setEnabled(true);
+		green.setEnabled(true);
 	}
+	private void SimonBlinks(ArrayList<Integer> moveList) {
+		int time = 1000-(round*50);
+		if(time < 100) {
+			time = 100;
+		}
+		for(int i = 0; i < moveList.size(); i++) {
+			buttonBlink(moveList.get(i),time);
+		}
+	}
+
+	public void buttonBlink(int b, int t) {
+		Thread blink = new Thread(new Runnable() {
+			
+			public void run() {
+				if(b == 0) {
+					blue.setBackground(new Color(0,125,255));
+					blue.setForeground(new Color(0,125,255));
+					try {
+						Thread.sleep(800);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					blue.setBackground(Color.BLUE);
+					blue.setForeground(Color.BLUE);
+				}else if(b == 1) {
+					red.setBackground(new Color(255,0,125));
+					red.setForeground(new Color(255,0,125));
+					try {
+						Thread.sleep(800);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					red.setBackground(Color.RED);
+					red.setForeground(Color.RED);
+				}else if(b == 2) {
+					yellow.setBackground(new Color(255,175,0));
+					yellow.setForeground(new Color(255,175,0));
+					try {
+						Thread.sleep(800);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					yellow.setBackground(Color.YELLOW);
+					yellow.setForeground(Color.YELLOW);
+				}else if(b == 3) {
+					green.setBackground(new Color(0,120,0));
+					green.setForeground(new Color(0,120,0));
+					try {
+						Thread.sleep(800);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					green.setBackground(Color.GREEN);
+					green.setForeground(Color.GREEN);
+				}	
+			}
+		});
+		blink.start();
+	}
+	
 }

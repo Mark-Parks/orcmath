@@ -15,8 +15,8 @@ public class SimonGUI extends GUIApplication{
 	}
 	
 	public static void main(String[] args){
-		SimonGUI catalog = new SimonGUI(800, 800);
-		Thread runner = new Thread(catalog);
+		SimonGUI game = new SimonGUI(800, 800);
+		Thread runner = new Thread(game);
 		runner.start();
 	}
 
