@@ -62,7 +62,7 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(red);
 		
-		yellow = new Button(200,450,200,200,"",Color.YELLOW,new Action() {
+		yellow = new Button(200,450,200,200,"",new Color(175,175,0),new Action() {
 			
 			@Override
 			public void act() {
@@ -105,7 +105,7 @@ public class SimonGame extends FullFunctionScreen{
 				moves.clear();
 				playerMoves.clear();
 				scoreBoard.clear();
-				scoreBoard.setText("ROUND : "+(round)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+				scoreBoard.setText("ROUND : "+(round)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 				scoreBoard.setSize(16);
 				blue.setVisible(true);
 				red.setVisible(true);
@@ -121,7 +121,7 @@ public class SimonGame extends FullFunctionScreen{
 		viewObjects.add(restart);
 		restart.setVisible(false);
 		
-		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 		scoreBoard.setSize(16);
 		viewObjects.add(scoreBoard);
 		
@@ -147,7 +147,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setVisible(false);
 				yellow.setVisible(false);
 				green.setVisible(false);
-				scoreBoard.setText("ROUND : "+round+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
+				scoreBoard.setText("ROUND : "+round+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
 				scoreBoard.setSize(16);
 				restart.setVisible(true);
 				return;
@@ -190,7 +190,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(false);
 				yellow.setEnabled(false);
 				green.setEnabled(false);
-				scoreBoard.setText("ROUND : "+(round+1)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
+				scoreBoard.setText("ROUND : "+(round+1)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
 				playerMoves.clear();
 				try {
 					Thread.sleep(1000);
@@ -223,15 +223,15 @@ public class SimonGame extends FullFunctionScreen{
 						red.setBackground(Color.RED);
 						red.setForeground(Color.RED);
 					}else if(moves.get(i) == 2) {
-						yellow.setBackground(new Color(255,165,80));
-						yellow.setForeground(new Color(255,165,80));
+						yellow.setBackground(new Color(255,255,0));
+						yellow.setForeground(new Color(255,255,0));
 						try {
 							Thread.sleep(time);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						yellow.setBackground(Color.YELLOW);
-						yellow.setForeground(Color.YELLOW);
+						yellow.setBackground(new Color(175,175,0));
+						yellow.setForeground(new Color(175,175,0));
 					}else if(moves.get(i) == 3) {
 						green.setBackground(new Color(0,255,100));
 						green.setForeground(new Color(0,255,100));
@@ -249,7 +249,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(true);
 				yellow.setEnabled(true);
 				green.setEnabled(true);
-				scoreBoard.setText("ROUND : "+(round)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
+				scoreBoard.setText("ROUND : "+(round)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
 			}
 		});
 		simon.start();
@@ -285,15 +285,15 @@ public class SimonGame extends FullFunctionScreen{
 					red.setBackground(Color.RED);
 					red.setForeground(Color.RED);
 				}else if(b == 2) {
-					yellow.setBackground(new Color(255,165,80));
-					yellow.setForeground(new Color(255,165,80));
+					yellow.setBackground(new Color(255,255,0));
+					yellow.setForeground(new Color(255,255,0));
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					yellow.setBackground(Color.YELLOW);
-					yellow.setForeground(Color.YELLOW);
+					yellow.setBackground(new Color(175,175,0));
+					yellow.setForeground(new Color(175,175,0));
 				}else if(b == 3) {
 					green.setBackground(new Color(0,255,100));
 					green.setForeground(new Color(0,255,100));
