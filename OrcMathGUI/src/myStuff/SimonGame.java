@@ -122,12 +122,20 @@ public class SimonGame extends FullFunctionScreen{
 	public void generateMove(int round) {
 		if(round == 0) {
 			moves.add((int)(Math.random()*4));
-			generateMove(1);
-			generateMove(2);
+			moves.add((int)(Math.random()*4));
+			while(moves.get(0) == moves.get(1)){
+				moves.remove(1);
+				moves.add((int)(Math.random()*4));
+			}
+			moves.add((int)(Math.random()*4));
+			while(moves.get(1) == moves.get(2)){
+				moves.remove(2);
+				moves.add((int)(Math.random()*4));
+			}
 		}else {
 			moves.add((int)(Math.random()*4));
-			while(moves.get(round-1) == moves.get(round)){
-				moves.remove(round);
+			while(moves.get(round+1) == moves.get(round+2)){
+				moves.remove(round+2);
 				moves.add((int)(Math.random()*4));
 			}
 		}
@@ -171,7 +179,7 @@ public class SimonGame extends FullFunctionScreen{
 					blue.setBackground(new Color(0,125,255));
 					blue.setForeground(new Color(0,125,255));
 					try {
-						Thread.sleep(800);
+						Thread.sleep(t);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -181,7 +189,7 @@ public class SimonGame extends FullFunctionScreen{
 					red.setBackground(new Color(255,0,125));
 					red.setForeground(new Color(255,0,125));
 					try {
-						Thread.sleep(800);
+						Thread.sleep(t);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -191,7 +199,7 @@ public class SimonGame extends FullFunctionScreen{
 					yellow.setBackground(new Color(255,175,0));
 					yellow.setForeground(new Color(255,175,0));
 					try {
-						Thread.sleep(800);
+						Thread.sleep(t);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -201,7 +209,7 @@ public class SimonGame extends FullFunctionScreen{
 					green.setBackground(new Color(0,120,0));
 					green.setForeground(new Color(0,120,0));
 					try {
-						Thread.sleep(800);
+						Thread.sleep(t);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
