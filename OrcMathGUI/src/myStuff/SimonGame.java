@@ -21,8 +21,12 @@ public class SimonGame extends FullFunctionScreen{
 	private Button yellow;
 	private Button green;
 	private Button start;
-	private TextArea scoreBoard; 
+	private Button restart;
+	private TextArea scoreBoard;
+	private TextArea title;
+	private TextArea devs;
 	private int round;
+	private int score;
 	
 	public SimonGame(int width, int height) {
 		super(width, height);
@@ -34,67 +38,100 @@ public class SimonGame extends FullFunctionScreen{
 		StyledComponent.setButtonOutline(true);
 		moves = new ArrayList<Integer>();
 		playerMoves = new ArrayList<Integer>();
-		blue = new Button(150,250,200,200,"",Color.BLUE,new Action() {
+		blue = new Button(200,250,200,200,"",Color.BLUE,new Action() {
 			
 			@Override
 			public void act() {
 				playerMoves.add(0);
-				buttonBlink(0,100);
+				buttonBlink(0,200);
 				checkMoves();
 			}
 
 		});
 		viewObjects.add(blue);
 		
-		red = new Button(350,250,200,200,"",Color.RED,new Action() {
+		red = new Button(400,250,200,200,"",Color.RED,new Action() {
 			
 			@Override
 			public void act() {
 				playerMoves.add(1);
-				buttonBlink(1,100);
+				buttonBlink(1,200);
 				checkMoves();
 			}
 
 		});
 		viewObjects.add(red);
 		
-		yellow = new Button(150,450,200,200,"",Color.YELLOW,new Action() {
+		yellow = new Button(200,450,200,200,"",Color.YELLOW,new Action() {
 			
 			@Override
 			public void act() {
 				playerMoves.add(2);
-				buttonBlink(2,100);
+				buttonBlink(2,200);
 				checkMoves();
 			}
 
 		});
 		viewObjects.add(yellow);
 		
-		green = new Button(350,450,200,200,"",Color.GREEN,new Action() {
+		green = new Button(400,450,200,200,"",new Color(0,120,0),new Action() {
 			
 			@Override
 			public void act() {
 				playerMoves.add(3);
-				buttonBlink(3,100);
+				buttonBlink(3,200);
 				checkMoves();
 			}
 
 		});
 		viewObjects.add(green);
 		
-		start = new Button(150,175,100,50,"Start Game",new Action() {
+		start = new Button(500,180,100,50,"Start Game",new Action() {
 			
 			@Override
 			public void act() {
 				round = 0;
-				viewObjects.remove(start);
+				start.setVisible(false);
 				SimonTurn();
 			}
 		});
 		viewObjects.add(start);
 		
-		scoreBoard = new TextArea(150,75,400,150,"ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+		restart = new Button(350,350,100,50,"Play Again?",new Action() {
+			
+			public void act() {
+				restart.setVisible(false);
+				round = 0;
+				moves.clear();
+				playerMoves.clear();
+				scoreBoard.clear();
+				scoreBoard.setText("ROUND : "+(round)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+				scoreBoard.setSize(16);
+				blue.setVisible(true);
+				red.setVisible(true);
+				yellow.setVisible(true);
+				green.setVisible(true);
+				start.setVisible(true);
+				blue.setEnabled(false);
+				red.setEnabled(false);
+				yellow.setEnabled(false);
+				green.setEnabled(false);
+			}
+		});
+		viewObjects.add(restart);
+		restart.setVisible(false);
+		
+		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+		scoreBoard.setSize(16);
 		viewObjects.add(scoreBoard);
+		
+		title = new TextArea(200,100,400,70,"                  SIMON SAYS GAME");
+		title.setSize(20);
+		viewObjects.add(title);
+		
+		devs = new TextArea(200,675,400,50,"CREATED BY MARK PARKS AND WILLIAM WU");
+		devs.setSize(18);
+		viewObjects.add(devs);
 		
 		blue.setEnabled(false);
 		red.setEnabled(false);
@@ -110,11 +147,15 @@ public class SimonGame extends FullFunctionScreen{
 				red.setVisible(false);
 				yellow.setVisible(false);
 				green.setVisible(false);
-				scoreBoard.setText("GAME OVER \nROUND : "+round+"\nSEQUENCE LENGTH: "+(round+2));
+				scoreBoard.setText("ROUND : "+round+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
+				scoreBoard.setSize(16);
+				restart.setVisible(true);
 				return;
 			}
 		}
 		if(playerMoves.size() == moves.size()) {
+			if(score < round+2)
+				score = round + 2;
 			SimonTurn();
 		}
 	}
@@ -149,7 +190,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(false);
 				yellow.setEnabled(false);
 				green.setEnabled(false);
-				scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nSIMON'S TURN");
+				scoreBoard.setText("ROUND : "+(round+1)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
 				playerMoves.clear();
 				try {
 					Thread.sleep(1000);
@@ -157,14 +198,13 @@ public class SimonGame extends FullFunctionScreen{
 					e.printStackTrace();
 				}
 				generateMove(round);
-				int time = 2000-(round*50);
-				if(time < 200)
+				int time = 1000-(round*100);
+				if(time < 100)
 					time = 100;
 				for(int i = 0; i < moves.size(); i++) {
 					if(moves.get(i) == 0) {
 						blue.setBackground(new Color(0,125,255));
 						blue.setForeground(new Color(0,125,255));
-						blue.setInactiveBorderColor(Color.ORANGE);
 						try {
 							Thread.sleep(time);
 						} catch (InterruptedException e) {
@@ -172,10 +212,9 @@ public class SimonGame extends FullFunctionScreen{
 						}
 						blue.setBackground(Color.BLUE);
 						blue.setForeground(Color.BLUE);
-						blue.setInactiveBorderColor(Color.BLACK);
 					}else if(moves.get(i) == 1) {
-						red.setBackground(new Color(255,0,125));
-						red.setForeground(new Color(255,0,125));
+						red.setBackground(new Color(255,95,125));
+						red.setForeground(new Color(255,95,125));
 						try {
 							Thread.sleep(time);
 						} catch (InterruptedException e) {
@@ -184,8 +223,8 @@ public class SimonGame extends FullFunctionScreen{
 						red.setBackground(Color.RED);
 						red.setForeground(Color.RED);
 					}else if(moves.get(i) == 2) {
-						yellow.setBackground(new Color(255,175,0));
-						yellow.setForeground(new Color(255,175,0));
+						yellow.setBackground(new Color(255,165,80));
+						yellow.setForeground(new Color(255,165,80));
 						try {
 							Thread.sleep(time);
 						} catch (InterruptedException e) {
@@ -194,15 +233,15 @@ public class SimonGame extends FullFunctionScreen{
 						yellow.setBackground(Color.YELLOW);
 						yellow.setForeground(Color.YELLOW);
 					}else if(moves.get(i) == 3) {
-						green.setBackground(new Color(0,120,0));
-						green.setForeground(new Color(0,120,0));
+						green.setBackground(new Color(0,255,100));
+						green.setForeground(new Color(0,255,100));
 						try {
 							Thread.sleep(time);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						green.setBackground(Color.GREEN);
-						green.setForeground(Color.GREEN);
+						green.setBackground(new Color(0,125,0));
+						green.setForeground(new Color(0,125,0));
 					}	
 				}	
 				round++;
@@ -210,7 +249,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(true);
 				yellow.setEnabled(true);
 				green.setEnabled(true);
-				scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
+				scoreBoard.setText("ROUND : "+(round)+"                                                  HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
 			}
 		});
 		simon.start();
@@ -236,8 +275,8 @@ public class SimonGame extends FullFunctionScreen{
 					blue.setForeground(Color.BLUE);
 					blue.setInactiveBorderColor(Color.BLACK);
 				}else if(b == 1) {
-					red.setBackground(new Color(255,0,125));
-					red.setForeground(new Color(255,0,125));
+					red.setBackground(new Color(255,95,125));
+					red.setForeground(new Color(255,95,125));
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
@@ -246,8 +285,8 @@ public class SimonGame extends FullFunctionScreen{
 					red.setBackground(Color.RED);
 					red.setForeground(Color.RED);
 				}else if(b == 2) {
-					yellow.setBackground(new Color(255,175,0));
-					yellow.setForeground(new Color(255,175,0));
+					yellow.setBackground(new Color(255,165,80));
+					yellow.setForeground(new Color(255,165,80));
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
@@ -256,15 +295,15 @@ public class SimonGame extends FullFunctionScreen{
 					yellow.setBackground(Color.YELLOW);
 					yellow.setForeground(Color.YELLOW);
 				}else if(b == 3) {
-					green.setBackground(new Color(0,120,0));
-					green.setForeground(new Color(0,120,0));
+					green.setBackground(new Color(0,255,100));
+					green.setForeground(new Color(0,255,100));
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					green.setBackground(Color.GREEN);
-					green.setForeground(Color.GREEN);
+					green.setBackground(new Color(0,125,0));
+					green.setForeground(new Color(0,125,0));
 				}	
 			}
 		});
