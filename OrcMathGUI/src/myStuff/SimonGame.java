@@ -86,7 +86,7 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(green);
 		
-		start = new Button(500,180,100,50,"Start Game",new Action() {
+		start = new Button(500,185,100,50,"Start Game",new Action() {
 			
 			@Override
 			public void act() {
@@ -105,7 +105,7 @@ public class SimonGame extends FullFunctionScreen{
 				moves.clear();
 				playerMoves.clear();
 				scoreBoard.clear();
-				scoreBoard.setText("ROUND : "+(round)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+				scoreBoard.setText("ROUND : "+(round)+"                                                HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 				scoreBoard.setSize(16);
 				blue.setVisible(true);
 				red.setVisible(true);
@@ -121,11 +121,11 @@ public class SimonGame extends FullFunctionScreen{
 		viewObjects.add(restart);
 		restart.setVisible(false);
 		
-		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                                HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 		scoreBoard.setSize(16);
 		viewObjects.add(scoreBoard);
 		
-		title = new TextArea(200,100,400,70,"                  SIMON SAYS GAME");
+		title = new TextArea(200,100,400,70,"                            SIMON");
 		title.setSize(20);
 		viewObjects.add(title);
 		
@@ -147,7 +147,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setVisible(false);
 				yellow.setVisible(false);
 				green.setVisible(false);
-				scoreBoard.setText("ROUND : "+round+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
+				scoreBoard.setText("ROUND : "+round+"                                                HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
 				scoreBoard.setSize(16);
 				restart.setVisible(true);
 				return;
@@ -190,7 +190,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(false);
 				yellow.setEnabled(false);
 				green.setEnabled(false);
-				scoreBoard.setText("ROUND : "+(round+1)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
+				scoreBoard.setText("ROUND : "+(round+1)+"                                                HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
 				playerMoves.clear();
 				try {
 					Thread.sleep(1000);
@@ -198,7 +198,7 @@ public class SimonGame extends FullFunctionScreen{
 					e.printStackTrace();
 				}
 				generateMove(round);
-				int time = 1000-(round*100);
+				int time = 1000-(round*75);
 				if(time < 100)
 					time = 100;
 				for(int i = 0; i < moves.size(); i++) {
@@ -249,15 +249,12 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(true);
 				yellow.setEnabled(true);
 				green.setEnabled(true);
-				scoreBoard.setText("ROUND : "+(round)+"                                                 HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
+				scoreBoard.setText("ROUND : "+(round)+"                                                HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
 			}
 		});
 		simon.start();
 	}
-//	private void SimonBlinks(ArrayList<Integer> moveList) {
-//		
-//	}
-
+	
 	public void buttonBlink(int b, int t) {
 		Thread blink = new Thread(new Runnable() {
 			
