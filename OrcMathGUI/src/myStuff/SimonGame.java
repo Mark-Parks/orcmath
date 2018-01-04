@@ -142,34 +142,82 @@ public class SimonGame extends FullFunctionScreen{
 	}
 	
 	protected void SimonTurn() {
-		scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nSIMON'S TURN");
-		playerMoves.clear();
-		blue.setEnabled(false);
-		red.setEnabled(false);
-		yellow.setEnabled(false);
-		green.setEnabled(false);
-		generateMove(round);
-		SimonBlinks(moves);
-		round++;	
-		scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
-		for(int i = 0; i < moves.size(); i++) {
-			System.out.println(moves.get(i));
-		}
-		System.out.println("---");
-		blue.setEnabled(true);
-		red.setEnabled(true);
-		yellow.setEnabled(true);
-		green.setEnabled(true);
+		Thread simon = new Thread(new Runnable() {
+			
+			public void run() {
+				blue.setEnabled(false);
+				red.setEnabled(false);
+				yellow.setEnabled(false);
+				green.setEnabled(false);
+				scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nSIMON'S TURN");
+				playerMoves.clear();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				generateMove(round);
+				int time = 2000-(round*50);
+				if(time < 200)
+					time = 100;
+				for(int i = 0; i < moves.size(); i++) {
+					if(moves.get(i) == 0) {
+						blue.setBackground(new Color(0,125,255));
+						blue.setForeground(new Color(0,125,255));
+						blue.setInactiveBorderColor(Color.ORANGE);
+						try {
+							Thread.sleep(time);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						blue.setBackground(Color.BLUE);
+						blue.setForeground(Color.BLUE);
+						blue.setInactiveBorderColor(Color.BLACK);
+					}else if(moves.get(i) == 1) {
+						red.setBackground(new Color(255,0,125));
+						red.setForeground(new Color(255,0,125));
+						try {
+							Thread.sleep(time);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						red.setBackground(Color.RED);
+						red.setForeground(Color.RED);
+					}else if(moves.get(i) == 2) {
+						yellow.setBackground(new Color(255,175,0));
+						yellow.setForeground(new Color(255,175,0));
+						try {
+							Thread.sleep(time);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						yellow.setBackground(Color.YELLOW);
+						yellow.setForeground(Color.YELLOW);
+					}else if(moves.get(i) == 3) {
+						green.setBackground(new Color(0,120,0));
+						green.setForeground(new Color(0,120,0));
+						try {
+							Thread.sleep(time);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						green.setBackground(Color.GREEN);
+						green.setForeground(Color.GREEN);
+					}	
+				}	
+				round++;
+				blue.setEnabled(true);
+				red.setEnabled(true);
+				yellow.setEnabled(true);
+				green.setEnabled(true);
+				scoreBoard.setText("ROUND : "+(round)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
+			}
+		});
+		simon.start();
 	}
-	private void SimonBlinks(ArrayList<Integer> moveList) {
-		int time = 1000-(round*50);
-		if(time < 100) {
-			time = 100;
-		}
-		for(int i = 0; i < moveList.size(); i++) {
-			buttonBlink(moveList.get(i),time);
-		}
-	}
+//	private void SimonBlinks(ArrayList<Integer> moveList) {
+//		
+//	}
 
 	public void buttonBlink(int b, int t) {
 		Thread blink = new Thread(new Runnable() {
@@ -178,6 +226,7 @@ public class SimonGame extends FullFunctionScreen{
 				if(b == 0) {
 					blue.setBackground(new Color(0,125,255));
 					blue.setForeground(new Color(0,125,255));
+					blue.setInactiveBorderColor(Color.ORANGE);
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
@@ -185,6 +234,7 @@ public class SimonGame extends FullFunctionScreen{
 					}
 					blue.setBackground(Color.BLUE);
 					blue.setForeground(Color.BLUE);
+					blue.setInactiveBorderColor(Color.BLACK);
 				}else if(b == 1) {
 					red.setBackground(new Color(255,0,125));
 					red.setForeground(new Color(255,0,125));
