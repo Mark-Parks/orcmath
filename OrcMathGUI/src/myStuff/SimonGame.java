@@ -105,7 +105,7 @@ public class SimonGame extends FullFunctionScreen{
 				moves.clear();
 				playerMoves.clear();
 				scoreBoard.clear();
-				scoreBoard.setText("ROUND : "+(round)+"                                               HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+				scoreBoard.setText("ROUND : "+(round)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 				scoreBoard.setSize(16);
 				blue.setVisible(true);
 				red.setVisible(true);
@@ -121,7 +121,7 @@ public class SimonGame extends FullFunctionScreen{
 		viewObjects.add(restart);
 		restart.setVisible(false);
 		
-		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                               HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
+		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 		scoreBoard.setSize(16);
 		viewObjects.add(scoreBoard);
 		
@@ -147,7 +147,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setVisible(false);
 				yellow.setVisible(false);
 				green.setVisible(false);
-				scoreBoard.setText("ROUND : "+round+"                                               HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
+				scoreBoard.setText("ROUND : "+round+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
 				scoreBoard.setSize(16);
 				restart.setVisible(true);
 				return;
@@ -190,7 +190,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(false);
 				yellow.setEnabled(false);
 				green.setEnabled(false);
-				scoreBoard.setText("ROUND : "+(round+1)+"                                               HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
+				scoreBoard.setText("ROUND : "+(round+1)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+3)+"\nSIMON'S TURN");
 				playerMoves.clear();
 				try {
 					Thread.sleep(1000);
@@ -249,7 +249,7 @@ public class SimonGame extends FullFunctionScreen{
 				red.setEnabled(true);
 				yellow.setEnabled(true);
 				green.setEnabled(true);
-				scoreBoard.setText("ROUND : "+(round)+"                                               HIGHSCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
+				scoreBoard.setText("ROUND : "+(round)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nYOUR TURN");
 			}
 		});
 		simon.start();
