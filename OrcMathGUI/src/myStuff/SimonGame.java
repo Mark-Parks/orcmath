@@ -43,7 +43,7 @@ public class SimonGame extends FullFunctionScreen{
 			@Override
 			public void act() {
 				playerMoves.add(0);
-				buttonBlink(0,200);
+				buttonBlink(0,175);
 				checkMoves();
 			}
 
@@ -55,7 +55,7 @@ public class SimonGame extends FullFunctionScreen{
 			@Override
 			public void act() {
 				playerMoves.add(1);
-				buttonBlink(1,200);
+				buttonBlink(1,175);
 				checkMoves();
 			}
 
@@ -67,7 +67,7 @@ public class SimonGame extends FullFunctionScreen{
 			@Override
 			public void act() {
 				playerMoves.add(2);
-				buttonBlink(2,200);
+				buttonBlink(2,175);
 				checkMoves();
 			}
 
@@ -79,7 +79,7 @@ public class SimonGame extends FullFunctionScreen{
 			@Override
 			public void act() {
 				playerMoves.add(3);
-				buttonBlink(3,200);
+				buttonBlink(3,175);
 				checkMoves();
 			}
 
