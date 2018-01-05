@@ -262,7 +262,6 @@ public class SimonGame extends FullFunctionScreen{
 				if(b == 0) {
 					blue.setBackground(new Color(0,125,255));
 					blue.setForeground(new Color(0,125,255));
-					blue.setInactiveBorderColor(Color.ORANGE);
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
@@ -270,7 +269,6 @@ public class SimonGame extends FullFunctionScreen{
 					}
 					blue.setBackground(Color.BLUE);
 					blue.setForeground(Color.BLUE);
-					blue.setInactiveBorderColor(Color.BLACK);
 				}else if(b == 1) {
 					red.setBackground(new Color(255,95,125));
 					red.setForeground(new Color(255,95,125));
