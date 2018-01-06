@@ -160,6 +160,7 @@ public class SimonGame extends FullFunctionScreen{
 				for(int i = 0; i < highScoresScore.size(); i++) {
 					if(round+1 > highScoresScore.get(i)) {
 						newRank = i;
+						break;
 					}
 				}
 				confirm.setVisible(false);
@@ -167,8 +168,8 @@ public class SimonGame extends FullFunctionScreen{
 				nameEnter.setVisible(false);
 				highScores.setVisible(true);
 				restart.setVisible(true);
-				highScoresScore.set(newRank, round+2);
-				highScoresName.set(newRank, nameEnter.getText().toUpperCase());
+				highScoresScore.add(newRank, round+1);
+				highScoresName.add(newRank, nameEnter.getText().toUpperCase());
 				highScores.setText(highScoreTable());
 				nameEnter.setText("");
 			}
@@ -186,7 +187,7 @@ public class SimonGame extends FullFunctionScreen{
 		nameEnter = new TextField(300,395,75,40,"");
 		viewObjects.add(nameEnter);
 		nameEnter.setVisible(false);
-		nameEnter.setSize(22);
+		nameEnter.setSize(20);
 		
 		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 		scoreBoard.setSize(16);
