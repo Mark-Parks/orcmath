@@ -294,8 +294,8 @@ public class SimonGame extends FullFunctionScreen{
 				}
 				generateMove(round);
 				int time = 1000-(round*75);
-				if(time < 100)
-					time = 100;
+				if(time < 125)
+					time = 125;
 				for(int i = 0; i < moves.size(); i++) {
 					if(moves.get(i) == 0) {
 						blue.setBackground(new Color(0,125,255));
