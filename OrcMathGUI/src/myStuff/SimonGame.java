@@ -16,12 +16,19 @@ public class SimonGame extends FullFunctionScreen{
 	
 	private ArrayList<Integer> moves;
 	private ArrayList<Integer> playerMoves;
+	private ArrayList<Integer> highScoresScore;
+	private ArrayList<String> highScoresName;
+	private ArrayList<String> highScoresRows;
 	private Button blue;
 	private Button red;
 	private Button yellow;
 	private Button green;
 	private Button start;
 	private Button restart;
+	private Button confirm;
+	private TextField nameEnter;
+	private TextArea nameEnterBox;
+	private TextArea highScores;
 	private TextArea scoreBoard;
 	private TextArea title;
 	private TextArea devs;
@@ -38,6 +45,22 @@ public class SimonGame extends FullFunctionScreen{
 		StyledComponent.setButtonOutline(true);
 		moves = new ArrayList<Integer>();
 		playerMoves = new ArrayList<Integer>();
+		highScoresScore = new ArrayList<Integer>();
+		highScoresName = new ArrayList<String>();
+		highScoresRows = new ArrayList<String>();
+		
+		highScoresScore.add(30);
+		highScoresScore.add(25);
+		highScoresScore.add(20);
+		highScoresScore.add(15);
+		highScoresScore.add(10);
+		
+		highScoresName.add("MAP");
+		highScoresName.add("AAA");
+		highScoresName.add("BBB");
+		highScoresName.add("CCC");
+		highScoresName.add("DDD");
+		
 		blue = new Button(200,250,200,200,"",Color.BLUE,new Action() {
 			
 			@Override
@@ -86,7 +109,7 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(green);
 		
-		start = new Button(500,185,100,50,"Start Game",new Action() {
+		start = new Button(500,185,100,50,"START GAME",new Action() {
 			
 			@Override
 			public void act() {
@@ -97,7 +120,7 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(start);
 		
-		restart = new Button(350,350,100,50,"Play Again?",new Action() {
+		restart = new Button(500,575,100,50,"PLAY AGAIN?",new Action() {
 			
 			public void act() {
 				restart.setVisible(false);
@@ -107,6 +130,7 @@ public class SimonGame extends FullFunctionScreen{
 				scoreBoard.clear();
 				scoreBoard.setText("ROUND : "+(round)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 				scoreBoard.setSize(16);
+				highScores.setVisible(false);
 				blue.setVisible(true);
 				red.setVisible(true);
 				yellow.setVisible(true);
@@ -120,6 +144,49 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(restart);
 		restart.setVisible(false);
+		
+		highScores = new TextArea(200,275,400,300,highScoreTable());
+		highScores.setSize(22);
+		viewObjects.add(highScores);
+		highScores.setVisible(false);
+		
+		confirm = new Button(410, 390, 100, 50, "CONFIRM", new Action() {
+			
+			public void act() {
+				if(nameEnter.getText().length() != 3) {
+					return;
+				}
+				int newRank = 0;
+				for(int i = 0; i < highScoresScore.size(); i++) {
+					if(round+1 > highScoresScore.get(i)) {
+						newRank = i;
+					}
+				}
+				confirm.setVisible(false);
+				nameEnterBox.setVisible(false);
+				nameEnter.setVisible(false);
+				highScores.setVisible(true);
+				restart.setVisible(true);
+				highScoresScore.set(newRank, round+2);
+				highScoresName.set(newRank, nameEnter.getText().toUpperCase());
+				highScores.setText(highScoreTable());
+				nameEnter.setText("");
+			}
+			
+		});
+		confirm.setSize(20);
+		viewObjects.add(confirm);
+		confirm.setVisible(false);
+		
+		nameEnterBox = new TextArea(287,287,226,150,"NEW HIGH SCORE!\nENTER INITIALS\n3 LETTERS PLEASE");
+		nameEnterBox.setSize(20);
+		viewObjects.add(nameEnterBox);
+		nameEnterBox.setVisible(false);
+		
+		nameEnter = new TextField(300,395,75,40,"");
+		viewObjects.add(nameEnter);
+		nameEnter.setVisible(false);
+		nameEnter.setSize(22);
 		
 		scoreBoard = new TextArea(200,150,400,150,"ROUND : "+(round)+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round)+"\nWAITING FOR GAME TO START...");
 		scoreBoard.setSize(16);
@@ -139,6 +206,22 @@ public class SimonGame extends FullFunctionScreen{
 		green.setEnabled(false);
 	}
 
+	private String highScoreTable() {
+		String tbl = "";
+		highScoresRows.clear();
+		highScoresRows.add("RANK               NAME                SCORE\n");
+		highScoresRows.add("1ST                   "+highScoresName.get(0)+"                        "+highScoresScore.get(0));
+		highScoresRows.add("2ND                   "+highScoresName.get(1)+"                        "+highScoresScore.get(1));
+		highScoresRows.add("3RD                   "+highScoresName.get(2)+"                        "+highScoresScore.get(2));
+		highScoresRows.add("4TH                   "+highScoresName.get(3)+"                        "+highScoresScore.get(3));
+		highScoresRows.add("5TH                   "+highScoresName.get(4)+"                        "+highScoresScore.get(4));
+		
+		for(int i = 0; i < highScoresRows.size(); i++) {
+			tbl += highScoresRows.get(i)+"\n";
+		}
+		return tbl;
+	}
+
 	public void checkMoves() {
 		for(int i = 0; i < playerMoves.size(); i++) {
 			if(moves.get(i) != playerMoves.get(i)) {
@@ -149,6 +232,16 @@ public class SimonGame extends FullFunctionScreen{
 				green.setVisible(false);
 				scoreBoard.setText("ROUND : "+round+"                                              HIGH SCORE : "+(score)+"\nSEQUENCE LENGTH : "+(round+2)+"\nGAME OVER ");
 				scoreBoard.setSize(16);
+				for(int j = 0; j < highScoresScore.size(); j++) {
+					if(round+1 > highScoresScore.get(j)) {
+						nameEnter.setVisible(true);
+						nameEnterBox.setVisible(true);
+						confirm.setVisible(true);
+						return;
+					}
+				}
+				
+				highScores.setVisible(true);
 				restart.setVisible(true);
 				return;
 			}
@@ -159,6 +252,7 @@ public class SimonGame extends FullFunctionScreen{
 			SimonTurn();
 		}
 	}
+
 
 	public void generateMove(int round) {
 		if(round == 0) {
@@ -262,6 +356,7 @@ public class SimonGame extends FullFunctionScreen{
 				if(b == 0) {
 					blue.setBackground(new Color(0,125,255));
 					blue.setForeground(new Color(0,125,255));
+					blue.setInactiveBorderColor(Color.ORANGE);
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
@@ -269,6 +364,7 @@ public class SimonGame extends FullFunctionScreen{
 					}
 					blue.setBackground(Color.BLUE);
 					blue.setForeground(Color.BLUE);
+					blue.setInactiveBorderColor(Color.BLACK);
 				}else if(b == 1) {
 					red.setBackground(new Color(255,95,125));
 					red.setForeground(new Color(255,95,125));
