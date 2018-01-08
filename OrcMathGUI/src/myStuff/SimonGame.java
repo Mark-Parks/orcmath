@@ -53,7 +53,7 @@ public class SimonGame extends FullFunctionScreen{
 		highScoresScore.add(25);
 		highScoresScore.add(20);
 		highScoresScore.add(15);
-		highScoresScore.add(10);
+		highScoresScore.add(3);
 		
 		highScoresName.add("MAP");
 		highScoresName.add("AAA");
@@ -109,7 +109,7 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(green);
 		
-		start = new Button(500,185,100,50,"START GAME",new Action() {
+		start = new Button(475,185,125,50,"START GAME",new Action() {
 			
 			@Override
 			public void act() {
@@ -120,7 +120,7 @@ public class SimonGame extends FullFunctionScreen{
 		});
 		viewObjects.add(start);
 		
-		restart = new Button(500,575,100,50,"PLAY AGAIN?",new Action() {
+		restart = new Button(475,575,125,50,"PLAY AGAIN?",new Action() {
 			
 			public void act() {
 				restart.setVisible(false);
@@ -357,7 +357,6 @@ public class SimonGame extends FullFunctionScreen{
 				if(b == 0) {
 					blue.setBackground(new Color(0,125,255));
 					blue.setForeground(new Color(0,125,255));
-					blue.setInactiveBorderColor(Color.ORANGE);
 					try {
 						Thread.sleep(t);
 					} catch (InterruptedException e) {
@@ -365,7 +364,6 @@ public class SimonGame extends FullFunctionScreen{
 					}
 					blue.setBackground(Color.BLUE);
 					blue.setForeground(Color.BLUE);
-					blue.setInactiveBorderColor(Color.BLACK);
 				}else if(b == 1) {
 					red.setBackground(new Color(255,95,125));
 					red.setForeground(new Color(255,95,125));
