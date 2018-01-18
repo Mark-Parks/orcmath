@@ -22,7 +22,8 @@ public class SimonGUI extends GUIApplication{
 
 	@Override
 	public void initScreen() {
-		SimonGame screen = new SimonGame(getWidth(), getHeight());
-		setScreen(screen);
+		SimonGame screen1 = new SimonGame(getWidth(),getHeight());
+		ClickCounter screen2 = new ClickCounter(getWidth(), getHeight());
+		setScreen(screen2);
 	}
 }
